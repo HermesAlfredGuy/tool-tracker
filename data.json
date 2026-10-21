@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-21 14:21 UTC",
- "generated_iso": "2026-10-21T14:21:43+00:00",
+ "generated": "2026-10-21 14:31 UTC",
+ "generated_iso": "2026-10-21T14:31:08+00:00",
  "host": "hermes",
  "mcp": [
   {
@@ -219,7 +219,7 @@
    ],
    "connect_ms": 3003,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "threejs-devtools",
@@ -303,7 +303,7 @@
    ],
    "connect_ms": 4498,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "21st",
@@ -377,7 +377,7 @@
    ],
    "connect_ms": 4759,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "godot-toolkit",
@@ -428,7 +428,7 @@
    ],
    "connect_ms": 7148,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "chrome-devtools",
@@ -475,7 +475,7 @@
    ],
    "connect_ms": 3275,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "playwright",
@@ -528,7 +528,7 @@
    ],
    "connect_ms": 2058,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "godot-editor",
@@ -565,7 +565,7 @@
    ],
    "connect_ms": 3559,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "serena",
@@ -617,7 +617,7 @@
    ],
    "connect_ms": 3582,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "godot",
@@ -646,7 +646,7 @@
    ],
    "connect_ms": 1940,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "filesystem",
@@ -675,7 +675,7 @@
    ],
    "connect_ms": 1996,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "spector",
@@ -716,7 +716,7 @@
    ],
    "connect_ms": 2004,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "git",
@@ -743,7 +743,7 @@
    ],
    "connect_ms": 2768,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "pollinations",
@@ -770,7 +770,7 @@
    ],
    "connect_ms": 2027,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "blender",
@@ -784,7 +784,7 @@
    "tool_names": [],
    "connect_ms": 2479,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "postgres",
@@ -808,7 +808,7 @@
    ],
    "connect_ms": 3391,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "shadcn",
@@ -830,7 +830,7 @@
    ],
    "connect_ms": 4158,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "semgrep",
@@ -850,7 +850,7 @@
    "tool_names": [],
    "connect_ms": 6846,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "audio-studio",
@@ -872,7 +872,7 @@
    ],
    "connect_ms": 2768,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "next-devtools",
@@ -895,7 +895,7 @@
    ],
    "connect_ms": 1938,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "deepwiki",
@@ -913,7 +913,7 @@
    ],
    "connect_ms": 5053,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "hyperiux",
@@ -931,7 +931,7 @@
    ],
    "connect_ms": 1987,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "context7",
@@ -948,7 +948,7 @@
    ],
    "connect_ms": 4217,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "better-auth",
@@ -965,7 +965,7 @@
    ],
    "connect_ms": 3839,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "markitdown",
@@ -981,7 +981,7 @@
    ],
    "connect_ms": 3180,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "motion",
@@ -997,7 +997,7 @@
    ],
    "connect_ms": 2914,
    "error": "",
-   "cached": false
+   "cached": true
   },
   {
    "name": "neo-storybook",
@@ -1310,7 +1310,7 @@
   },
   {
    "name": "Load average",
-   "detail": "2.20 2.14 6.34",
+   "detail": "5.26 2.54 4.31",
    "ok": true
   }
  ],
@@ -1598,7 +1598,7 @@
    "status": "Removed by the owner (2026-10-20). Both NEO sites are offline; the repos are private and kept.",
    "live": [],
    "video": null,
-   "next": "None."
+   "next": ""
   },
   {
    "id": "studio",
@@ -1745,7 +1745,7 @@
    "id": "tool-tracker",
    "title": "Tool Tracker — tools & progress",
    "topic": 1,
-   "status": "Live dashboard generated from the real system (2026-10-21): 25/25 MCP servers hand-tested, 583 MCP tools, 17/24 native toolsets, 16/18 cron jobs, 10/10 services, 17 projects with current status.",
+   "status": "Live dashboard generated from the real system (2026-10-21 14:20 UTC): 25/25 MCP servers handshaken, 583 MCP tools (565 names indexed), 17/24 native toolsets, 17/19 cron jobs, 10/10 services, 272 skills, 18 projects with current status.",
    "live": [
     [
      "Dashboard",
