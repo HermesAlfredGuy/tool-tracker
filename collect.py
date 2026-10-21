@@ -98,9 +98,11 @@ def mcp_live(name):
     ok = "✓ Connected" in out
     tools = re.search(r"Tools discovered: (\d+)", out)
     ms = re.search(r"Connected \((\d+)ms\)", out)
+    names = re.findall(r"^    (\S+) {2,}\S", out, flags=re.M)
     return {
         "live": ok,
         "tools": int(tools.group(1)) if tools else 0,
+        "tool_names": names,
         "connect_ms": int(ms.group(1)) if ms else None,
         "error": "" if ok else out.strip().splitlines()[-1][:160] if out.strip() else "no output",
     }
@@ -255,12 +257,13 @@ def main(fast=False):
         if fast and s["name"] in prev and prev[s["name"]].get("tools"):
             p = prev[s["name"]]
             return {**s, "live": p["live"], "tools": p["tools"],
+                    "tool_names": p.get("tool_names", []),
                     "connect_ms": p["connect_ms"], "error": p.get("error", ""), "cached": True}
         return {**s, **mcp_live(s["name"]), "cached": False}
 
     with ThreadPoolExecutor(max_workers=6) as pool:
         tested = list(pool.map(work, enabled))
-    disabled = [{**s, "live": False, "tools": 0, "connect_ms": None,
+    disabled = [{**s, "live": False, "tools": 0, "tool_names": [], "connect_ms": None,
                  "error": "disabled in config", "cached": False} for s in servers if not s["enabled"]]
     mcp_rows = sorted(tested, key=lambda r: -r["tools"]) + disabled
 
