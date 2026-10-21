@@ -1,6 +1,6 @@
 # Hermes · Tool Tracker
 
-_Generated 2026-10-21 14:31 UTC on hermes_
+_Generated 2026-10-21 14:36 UTC on hermes_
 
 **25/25 MCP servers live · 583 MCP tools · 17/24 native toolsets · 17/19 crons · 10/10 services healthy · 18 projects**
 
@@ -8,31 +8,31 @@ _Generated 2026-10-21 14:31 UTC on hermes_
 
 | Server | Transport | Tools | Exposure | Handshake | State |
 |---|---|---|---|---|---|
-| kinocut | stdio | 203 | all tools | 3003 ms | live |
-| threejs-devtools | stdio | 69 | all tools | 4498 ms | live |
-| 21st | http | 51 | 7 selected | 4759 ms | live |
-| godot-toolkit | stdio | 36 | all tools | 7148 ms | live |
-| chrome-devtools | stdio | 32 | all tools | 3275 ms | live |
-| playwright | stdio | 25 | 12 selected | 2058 ms | live |
-| godot-editor | stdio | 24 | all tools | 3559 ms | live |
-| serena | stdio | 23 | 13 selected | 3582 ms | live |
-| godot | stdio | 14 | all tools | 1940 ms | live |
-| filesystem | stdio | 14 | all tools | 1996 ms | live |
-| spector | stdio | 13 | 12 selected | 2004 ms | live |
-| git | stdio | 12 | all tools | 2768 ms | live |
-| pollinations | stdio | 12 | all tools | 2027 ms | live |
-| blender | stdio | 9 | all tools | 2479 ms | live |
-| postgres | stdio | 9 | all tools | 3391 ms | live |
-| shadcn | stdio | 7 | all tools | 4158 ms | live |
-| semgrep | stdio | 7 | 5 selected | 6846 ms | live |
-| audio-studio | stdio | 7 | all tools | 2768 ms | live |
-| next-devtools | stdio | 4 | 3 selected | 1938 ms | live |
-| deepwiki | http | 3 | all tools | 5053 ms | live |
-| hyperiux | stdio | 3 | all tools | 1987 ms | live |
-| context7 | http | 2 | all tools | 4217 ms | live |
-| better-auth | http | 2 | all tools | 3839 ms | live |
-| markitdown | stdio | 1 | all tools | 3180 ms | live |
-| motion | http | 1 | all tools | 2914 ms | live |
+| kinocut | stdio | 203 | all tools | 3149 ms | live |
+| threejs-devtools | stdio | 69 | all tools | 5173 ms | live |
+| 21st | http | 51 | 7 selected | 4352 ms | live |
+| godot-toolkit | stdio | 36 | all tools | 7258 ms | live |
+| chrome-devtools | stdio | 32 | all tools | 3224 ms | live |
+| playwright | stdio | 25 | 12 selected | 2076 ms | live |
+| godot-editor | stdio | 24 | all tools | 3601 ms | live |
+| serena | stdio | 23 | 13 selected | 3694 ms | live |
+| godot | stdio | 14 | all tools | 2064 ms | live |
+| filesystem | stdio | 14 | all tools | 2082 ms | live |
+| spector | stdio | 13 | 12 selected | 2046 ms | live |
+| git | stdio | 12 | all tools | 2689 ms | live |
+| pollinations | stdio | 12 | all tools | 1997 ms | live |
+| blender | stdio | 9 | all tools | 2451 ms | live |
+| postgres | stdio | 9 | all tools | 3421 ms | live |
+| shadcn | stdio | 7 | all tools | 3606 ms | live |
+| semgrep | stdio | 7 | 5 selected | 6418 ms | live |
+| audio-studio | stdio | 7 | all tools | 2725 ms | live |
+| next-devtools | stdio | 4 | 3 selected | 1926 ms | live |
+| deepwiki | http | 3 | all tools | 5029 ms | live |
+| hyperiux | stdio | 3 | all tools | 1876 ms | live |
+| context7 | http | 2 | all tools | 4398 ms | live |
+| better-auth | http | 2 | all tools | 3665 ms | live |
+| markitdown | stdio | 1 | all tools | 3302 ms | live |
+| motion | http | 1 | all tools | 3199 ms | live |
 | neo-storybook | stdio | – | all tools | – | disabled |
 | figma | http | – | all tools | – | disabled |
 | hugging_face | http | – | all tools | – | disabled |
@@ -89,7 +89,7 @@ _Generated 2026-10-21 14:31 UTC on hermes_
 | ND96 host (Oracle VM) | HTTP 200 | ok |
 | ND96 kayak (Oracle VM) | HTTP 200 | ok |
 | Disk /opt/data | 134G used of 952G (15%) | ok |
-| Load average | 5.26 2.54 4.31 | ok |
+| Load average | 2.21 2.07 3.60 | ok |
 
 ## 4. Scheduled jobs
 

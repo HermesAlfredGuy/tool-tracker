@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-21 14:31 UTC",
- "generated_iso": "2026-10-21T14:31:08+00:00",
+ "generated": "2026-10-21 14:36 UTC",
+ "generated_iso": "2026-10-21T14:36:51+00:00",
  "host": "hermes",
  "mcp": [
   {
@@ -217,9 +217,9 @@
     "revideo_render",
     "revideo_render_job"
    ],
-   "connect_ms": 3003,
+   "connect_ms": 3149,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "threejs-devtools",
@@ -301,9 +301,9 @@
     "set_dev_port",
     "set_dev_url"
    ],
-   "connect_ms": 4498,
+   "connect_ms": 5173,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "21st",
@@ -375,9 +375,9 @@
     "edit_profile",
     "upload_profile_media"
    ],
-   "connect_ms": 4759,
+   "connect_ms": 4352,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "godot-toolkit",
@@ -426,9 +426,9 @@
     "discover_tools",
     "extensions_refresh"
    ],
-   "connect_ms": 7148,
+   "connect_ms": 7258,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "chrome-devtools",
@@ -473,9 +473,9 @@
     "upload_file",
     "wait_for"
    ],
-   "connect_ms": 3275,
+   "connect_ms": 3224,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "playwright",
@@ -526,9 +526,9 @@
     "browser_tabs",
     "browser_wait_for"
    ],
-   "connect_ms": 2058,
+   "connect_ms": 2076,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "godot-editor",
@@ -563,9 +563,9 @@
     "godot_check_for_updates",
     "godot_get_server_info"
    ],
-   "connect_ms": 3559,
+   "connect_ms": 3601,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "serena",
@@ -615,9 +615,9 @@
     "onboarding",
     "initial_instructions"
    ],
-   "connect_ms": 3582,
+   "connect_ms": 3694,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "godot",
@@ -644,9 +644,9 @@
     "get_uid",
     "update_project_uids"
    ],
-   "connect_ms": 1940,
+   "connect_ms": 2064,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "filesystem",
@@ -673,9 +673,9 @@
     "get_file_info",
     "list_allowed_directories"
    ],
-   "connect_ms": 1996,
+   "connect_ms": 2082,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "spector",
@@ -714,9 +714,9 @@
     "get_context_info",
     "get_console_logs"
    ],
-   "connect_ms": 2004,
+   "connect_ms": 2046,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "git",
@@ -741,9 +741,9 @@
     "git_show",
     "git_branch"
    ],
-   "connect_ms": 2768,
+   "connect_ms": 2689,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "pollinations",
@@ -768,9 +768,9 @@
     "getDomains",
     "updateDomains"
    ],
-   "connect_ms": 2027,
+   "connect_ms": 1997,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "blender",
@@ -782,9 +782,9 @@
    "live": true,
    "tools": 9,
    "tool_names": [],
-   "connect_ms": 2479,
+   "connect_ms": 2451,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "postgres",
@@ -806,9 +806,9 @@
     "get_top_queries",
     "execute_sql"
    ],
-   "connect_ms": 3391,
+   "connect_ms": 3421,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "shadcn",
@@ -828,9 +828,9 @@
     "get_add_command_for_items",
     "get_audit_checklist"
    ],
-   "connect_ms": 4158,
+   "connect_ms": 3606,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "semgrep",
@@ -848,9 +848,9 @@
    "live": true,
    "tools": 7,
    "tool_names": [],
-   "connect_ms": 6846,
+   "connect_ms": 6418,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "audio-studio",
@@ -870,9 +870,9 @@
     "mix_audio_stems",
     "create_audio_ab_preview"
    ],
-   "connect_ms": 2768,
+   "connect_ms": 2725,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "next-devtools",
@@ -893,9 +893,9 @@
     "nextjs_index",
     "nextjs_call"
    ],
-   "connect_ms": 1938,
+   "connect_ms": 1926,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "deepwiki",
@@ -911,9 +911,9 @@
     "read_wiki_contents",
     "read_wiki_structure"
    ],
-   "connect_ms": 5053,
+   "connect_ms": 5029,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "hyperiux",
@@ -929,9 +929,9 @@
     "hyperiux_get_effect",
     "hyperiux_list_categories"
    ],
-   "connect_ms": 1987,
+   "connect_ms": 1876,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "context7",
@@ -946,9 +946,9 @@
     "resolve-library-id",
     "query-docs"
    ],
-   "connect_ms": 4217,
+   "connect_ms": 4398,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "better-auth",
@@ -963,9 +963,9 @@
     "search_docs",
     "get_doc"
    ],
-   "connect_ms": 3839,
+   "connect_ms": 3665,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "markitdown",
@@ -979,9 +979,9 @@
    "tool_names": [
     "convert_to_markdown"
    ],
-   "connect_ms": 3180,
+   "connect_ms": 3302,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "motion",
@@ -995,9 +995,9 @@
    "tool_names": [
     "search-motion-docs"
    ],
-   "connect_ms": 2914,
+   "connect_ms": 3199,
    "error": "",
-   "cached": true
+   "cached": false
   },
   {
    "name": "neo-storybook",
@@ -1310,7 +1310,7 @@
   },
   {
    "name": "Load average",
-   "detail": "5.26 2.54 4.31",
+   "detail": "2.21 2.07 3.60",
    "ok": true
   }
  ],
