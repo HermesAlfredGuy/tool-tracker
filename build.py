@@ -21,6 +21,7 @@ native_all = len(D["native_toolsets"])
 plugins_on = sum(1 for t in D["plugin_toolsets"] if t["state"] == "enabled")
 crons_on = sum(1 for c in D["crons"] if c["enabled"])
 svc_ok = sum(1 for s in D["services"] if s["ok"])
+total_tool_names = sum(len(r.get("tool_names") or []) for r in D["mcp"])
 sk = D["skills"]
 
 
@@ -94,6 +95,22 @@ def project_rows() -> str:
             f'<p class="status">{E(p["status"])}</p>'
             f'{next_html}'
             f'<div class="links">{links}</div></article>')
+    return "\n".join(out)
+
+
+def tool_index() -> str:
+    out = []
+    for r in D["mcp"]:
+        names = r.get("tool_names") or []
+        if not names:
+            continue
+        chips = "".join(f'<code>{E(n)}</code>' for n in names)
+        open_tag = "<details open>" if len(names) <= 24 else "<details>"
+        out.append(
+            f'<div class="tgroup" data-search="{E(r["name"] + " " + " ".join(names))}">'
+            f'{open_tag}<summary><span class="tname">{E(r["name"])}</span>'
+            f'<span class="tcount mono dim">{len(names)} tools</span></summary>'
+            f'<div class="tchips">{chips}</div></details></div>')
     return "\n".join(out)
 
 
@@ -195,6 +212,18 @@ HTML = f"""<!doctype html>
   .pill {{ text-decoration:none; font:11.5px ui-monospace,monospace; color:#cfcdc7;
     border:1px solid #262c33; padding:3px 9px; border-radius:999px; }}
   .pill:hover {{ border-color:var(--accent); color:#fff; }}
+  .tgroup {{ border-bottom:1px solid #14171b; }}
+  .tgroup summary {{ display:flex; align-items:baseline; gap:12px; padding:11px 0; cursor:pointer;
+    list-style:none; }}
+  .tgroup summary::-webkit-details-marker {{ display:none; }}
+  .tgroup summary::before {{ content:"+"; font:13px ui-monospace,monospace; color:#5f767f; width:10px; }}
+  .tgroup details[open] summary::before {{ content:"–"; }}
+  .tname {{ font-family:ui-monospace,monospace; font-size:13px; color:var(--ink); }}
+  .tcount {{ margin-left:auto; }}
+  .tchips {{ display:flex; flex-wrap:wrap; gap:6px; padding:2px 0 16px 22px; }}
+  .tchips code {{ font:11.5px ui-monospace,monospace; color:#c2c8cf; background:#11151a;
+    border:1px solid #1e242b; padding:2px 7px; border-radius:3px; }}
+  .tchips code:hover {{ border-color:var(--accent); color:#fff; }}
   footer {{ border-top:1px solid var(--line); padding:26px 0 60px; color:#5d646c;
     font:12px ui-monospace,monospace; display:flex; justify-content:space-between; gap:20px;
     flex-wrap:wrap; }}
@@ -253,6 +282,7 @@ HTML = f"""<!doctype html>
       <li><a href="#crons"><i>05</i>Scheduled</a></li>
       <li><a href="#projects"><i>06</i>Projects</a></li>
       <li><a href="#runtimes"><i>07</i>Runtimes</a></li>
+      <li><a href="#tools"><i>08</i>Tool index</a></li>
     </ol>
   </nav>
 
@@ -315,6 +345,12 @@ HTML = f"""<!doctype html>
       <p class="sub">Version strings reported by the binaries themselves.</p>
       <table><tbody>{cli_rows()}</tbody></table>
     </section>
+
+    <section id="tools" class="reveal">
+      <h2><i>08</i> Tool index</h2>
+      <p class="sub">Every tool each live server actually advertises — {total_tool_names} names, straight from the handshake.</p>
+      {tool_index()}
+    </section>
   </div>
 </main>
 
@@ -372,7 +408,12 @@ md = [f"# Hermes · Tool Tracker\n", f"_Generated {D['generated']} on {D['host']
 for p in D["projects"]:
     links = ", ".join(u for _, u in p["live"] if u and not u.startswith("auto:")) or "no public link"
     md.append(f"### {p['title']}\n- **Status:** {p['status']}\n- **Next:** {p['next']}\n- **Live:** {links}\n" f"- **Topic:** {p['topic']}\n")
-md.append("\n## 7. Runtimes\n")
+md.append("\n## 7. Tool index (names per server)\n")
+for r in D["mcp"]:
+    ns = r.get("tool_names") or []
+    if ns:
+        md.append(f"- **{r['name']}** ({len(ns)}): " + ", ".join(f"`{n}`" for n in ns))
+md.append("\n## 8. Runtimes\n")
 md.append(md_table(["Runtime", "Version"], [[c["name"], c["version"]] for c in D["clis"]]))
 (DIR / "TRACKER.md").write_text("\n".join(md) + "\n")
 print(f"wrote index.html ({len(HTML)//1024} kB) and TRACKER.md")
