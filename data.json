@@ -1,0 +1,1119 @@
+{
+ "generated": "2026-10-21 13:59 UTC",
+ "generated_iso": "2026-10-21T13:59:03+00:00",
+ "host": "hermes",
+ "mcp": [
+  {
+   "name": "kinocut",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/integrations/kinocut/.venv/bin/kino --mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 203,
+   "connect_ms": 4943,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "threejs-devtools",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y threejs-devtools-mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 69,
+   "connect_ms": 5989,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "21st",
+   "enabled": true,
+   "transport": "http",
+   "target": "https://21st.dev/api/mcp",
+   "lazy": false,
+   "selected_tools": [
+    "search",
+    "search_picker",
+    "get_inspiration",
+    "record_inspiration_feedback",
+    "search_logo",
+    "get_component",
+    "get_usage"
+   ],
+   "live": true,
+   "tools": 51,
+   "connect_ms": 4828,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "godot-toolkit",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/hermes/.venv/bin/python /opt/data/scripts/godot-mcp-launcher.py",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 36,
+   "connect_ms": 6751,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "chrome-devtools",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y chrome-devtools-mcp@latest --headless --isolated --no-usage-statistics --executablePath /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --chromeArg=--no-sandbox",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 32,
+   "connect_ms": 3455,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "playwright",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/integrations/node/node_modules/.bin/playwright-mcp --headless --isolated --executable-path /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --idle-timeout 900000",
+   "lazy": true,
+   "selected_tools": [
+    "browser_navigate",
+    "browser_snapshot",
+    "browser_find",
+    "browser_click",
+    "browser_fill_form",
+    "browser_press_key",
+    "browser_emulate_media",
+    "browser_resize",
+    "browser_take_screenshot",
+    "browser_evaluate",
+    "browser_console_messages",
+    "browser_close"
+   ],
+   "live": true,
+   "tools": 25,
+   "connect_ms": 2586,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "godot-editor",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "uvx godot-editor-mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 24,
+   "connect_ms": 8611,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "serena",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/.local/bin/serena start-mcp-server --context claude-code --project-from-cwd --enable-web-dashboard false --enable-gui-log-window false",
+   "lazy": true,
+   "selected_tools": [
+    "activate_project",
+    "get_current_config",
+    "initial_instructions",
+    "get_symbols_overview",
+    "find_symbol",
+    "find_referencing_symbols",
+    "find_implementations",
+    "find_declaration",
+    "rename_symbol",
+    "replace_symbol_body",
+    "insert_after_symbol",
+    "insert_before_symbol",
+    "get_diagnostics_for_file"
+   ],
+   "live": true,
+   "tools": 23,
+   "connect_ms": 4060,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "godot",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y @coding-solo/godot-mcp",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 14,
+   "connect_ms": 2381,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "filesystem",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y @modelcontextprotocol/server-filesystem /opt/data/projects /home/hermes/projects /home/hermes/Desktop /opt/data/game-art-runs /opt/data/work /opt/data/kanban/workspaces /opt/data/improvement-runs /opt/data/integration-research /opt/data/home/cartoon-studio /opt/data/animation-audits",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 14,
+   "connect_ms": 2750,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "spector",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "node /opt/data/integrations/spector/mcp/dist/index.js",
+   "lazy": true,
+   "selected_tools": [
+    "load_url",
+    "take_screenshot",
+    "list_canvases",
+    "select_canvas",
+    "capture_frame",
+    "get_draw_calls",
+    "get_command_details",
+    "get_shaders",
+    "get_textures",
+    "get_webgl_state",
+    "get_context_info",
+    "get_console_logs"
+   ],
+   "live": true,
+   "tools": 13,
+   "connect_ms": 2206,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "git",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "uvx mcp-server-git --repository /opt/data/projects/nd96-games",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 12,
+   "connect_ms": 3892,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "pollinations",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "node /opt/data/home/cartoon-studio/node_modules/@pollinations/model-context-protocol/pollinations-mcp.js --connect-timeout 60 --accept-hooks",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 12,
+   "connect_ms": 3173,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "blender",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/usr/local/bin/uvx mcp-for-blender",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 9,
+   "connect_ms": 2654,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "postgres",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/usr/local/bin/uvx --python 3.13 --overrides /opt/data/integrations/postgres-mcp/overrides.txt --with mcp<2 --from postgres-mcp==0.3.0 postgres-mcp --access-mode=restricted",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 9,
+   "connect_ms": 3613,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "shadcn",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y shadcn@4.21.0 mcp",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 7,
+   "connect_ms": 4436,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "semgrep",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/.local/bin/semgrep mcp",
+   "lazy": true,
+   "selected_tools": [
+    "semgrep_scan",
+    "semgrep_scan_with_custom_rule",
+    "get_supported_languages",
+    "get_abstract_syntax_tree",
+    "semgrep_rule_schema"
+   ],
+   "live": true,
+   "tools": 7,
+   "connect_ms": 7539,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "audio-studio",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/integrations/audio-studio/.venv/bin/python /opt/data/integrations/audio-studio/server.py",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 7,
+   "connect_ms": 4194,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "next-devtools",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/integrations/node/node_modules/.bin/next-devtools-mcp",
+   "lazy": true,
+   "selected_tools": [
+    "nextjs_index",
+    "nextjs_call",
+    "nextjs_docs"
+   ],
+   "live": true,
+   "tools": 4,
+   "connect_ms": 2039,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "deepwiki",
+   "enabled": true,
+   "transport": "http",
+   "target": "https://mcp.deepwiki.com/mcp",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 3,
+   "connect_ms": 5410,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "hyperiux",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "npx -y hyperiux-mcp-server",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 3,
+   "connect_ms": 3192,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "context7",
+   "enabled": true,
+   "transport": "http",
+   "target": "https://mcp.context7.com/mcp",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 2,
+   "connect_ms": 4400,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "better-auth",
+   "enabled": true,
+   "transport": "http",
+   "target": "https://mcp.better-auth.com/mcp",
+   "lazy": false,
+   "selected_tools": [],
+   "live": true,
+   "tools": 2,
+   "connect_ms": 4342,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "markitdown",
+   "enabled": true,
+   "transport": "stdio",
+   "target": "/opt/data/.local/bin/markitdown-mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 1,
+   "connect_ms": 3461,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "motion",
+   "enabled": true,
+   "transport": "http",
+   "target": "https://mcp.motion.dev",
+   "lazy": true,
+   "selected_tools": [],
+   "live": true,
+   "tools": 1,
+   "connect_ms": 4611,
+   "error": "",
+   "cached": true
+  },
+  {
+   "name": "neo-storybook",
+   "enabled": false,
+   "transport": "stdio",
+   "target": "python3 /opt/data/integrations/storybook-mcp/launch.py",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "figma",
+   "enabled": false,
+   "transport": "http",
+   "target": "https://mcp.figma.com/mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "hugging_face",
+   "enabled": false,
+   "transport": "http",
+   "target": "https://huggingface.co/mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "globalping",
+   "enabled": false,
+   "transport": "http",
+   "target": "https://mcp.globalping.dev/mcp",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "n8n-official",
+   "enabled": false,
+   "transport": "http",
+   "target": "${N8N_MCP_URL}",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "grafana",
+   "enabled": false,
+   "transport": "stdio",
+   "target": "/usr/local/bin/uvx mcp-grafana",
+   "lazy": true,
+   "selected_tools": [],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  },
+  {
+   "name": "computer-use-linux",
+   "enabled": false,
+   "transport": "stdio",
+   "target": "/opt/data/integrations/node/node_modules/.bin/computer-use-linux mcp",
+   "lazy": true,
+   "selected_tools": [
+    "doctor",
+    "list_windows",
+    "get_app_state",
+    "screenshot",
+    "click",
+    "press_key",
+    "type_text"
+   ],
+   "live": false,
+   "tools": 0,
+   "connect_ms": null,
+   "error": "disabled in config",
+   "cached": false
+  }
+ ],
+ "mcp_enabled": 25,
+ "mcp_tools": 583,
+ "native_toolsets": [
+  {
+   "state": "enabled",
+   "name": "web",
+   "label": "🔍 Web Search & Scraping"
+  },
+  {
+   "state": "enabled",
+   "name": "browser",
+   "label": "🌐 Browser Automation"
+  },
+  {
+   "state": "enabled",
+   "name": "terminal",
+   "label": "💻 Terminal & Processes"
+  },
+  {
+   "state": "enabled",
+   "name": "file",
+   "label": "📁 File Operations"
+  },
+  {
+   "state": "enabled",
+   "name": "code_execution",
+   "label": "⚡ Code Execution"
+  },
+  {
+   "state": "enabled",
+   "name": "vision",
+   "label": "👁️  Vision / Image Analysis"
+  },
+  {
+   "state": "disabled",
+   "name": "video",
+   "label": "🎬 Video Analysis"
+  },
+  {
+   "state": "enabled",
+   "name": "image_gen",
+   "label": "🎨 Image Generation"
+  },
+  {
+   "state": "disabled",
+   "name": "video_gen",
+   "label": "🎬 Video Generation"
+  },
+  {
+   "state": "disabled",
+   "name": "x_search",
+   "label": "🐦 X (Twitter) Search"
+  },
+  {
+   "state": "enabled",
+   "name": "tts",
+   "label": "🔊 Text-to-Speech"
+  },
+  {
+   "state": "disabled",
+   "name": "stt",
+   "label": "🎙️ Speech-to-Text"
+  },
+  {
+   "state": "enabled",
+   "name": "skills",
+   "label": "📚 Skills"
+  },
+  {
+   "state": "enabled",
+   "name": "todo",
+   "label": "📋 Task Planning"
+  },
+  {
+   "state": "disabled",
+   "name": "kanban",
+   "label": "📌 Kanban"
+  },
+  {
+   "state": "enabled",
+   "name": "memory",
+   "label": "💾 Memory"
+  },
+  {
+   "state": "disabled",
+   "name": "context_engine",
+   "label": "🧩 Context Engine"
+  },
+  {
+   "state": "enabled",
+   "name": "session_search",
+   "label": "🔎 Session Search"
+  },
+  {
+   "state": "enabled",
+   "name": "connections",
+   "label": "🔌 Connections"
+  },
+  {
+   "state": "enabled",
+   "name": "clarify",
+   "label": "❓ Clarifying Questions"
+  },
+  {
+   "state": "enabled",
+   "name": "delegation",
+   "label": "👥 Task Delegation"
+  },
+  {
+   "state": "enabled",
+   "name": "cronjob",
+   "label": "⏰ Cron Jobs"
+  },
+  {
+   "state": "disabled",
+   "name": "yuanbao",
+   "label": "🤖 Yuanbao"
+  },
+  {
+   "state": "enabled",
+   "name": "computer_use",
+   "label": "🖱️  Computer Use (macOS/Windows/Linux)"
+  }
+ ],
+ "plugin_toolsets": [
+  {
+   "state": "disabled",
+   "name": "a2a",
+   "label": "🔌 A2A"
+  },
+  {
+   "state": "enabled",
+   "name": "diff_review",
+   "label": "🔌 Diff Review"
+  },
+  {
+   "state": "enabled",
+   "name": "epistemic-harness",
+   "label": "🔌 Epistemic-Harness"
+  },
+  {
+   "state": "enabled",
+   "name": "source_tray",
+   "label": "🔌 Source Tray"
+  },
+  {
+   "state": "enabled",
+   "name": "tool-slimmer",
+   "label": "🔌 Tool-Slimmer"
+  },
+  {
+   "state": "enabled",
+   "name": "web-search-plus",
+   "label": "🔌 Web-Search-Plus"
+  }
+ ],
+ "services": [
+  {
+   "name": "Hermes gateway",
+   "detail": "pid 725239",
+   "ok": true
+  },
+  {
+   "name": "Telegram bridge",
+   "detail": "channel -1003852072951",
+   "ok": true
+  },
+  {
+   "name": "Itlala demo · Next :9100",
+   "detail": "200",
+   "ok": true
+  },
+  {
+   "name": "Typesense :8108",
+   "detail": "health 200",
+   "ok": true
+  },
+  {
+   "name": "Demo tunnel (cloudflared)",
+   "detail": "quick tunnel up",
+   "ok": true
+  },
+  {
+   "name": "Blender bridge :9876",
+   "detail": "blender 4.5.9 + mcp-for-blender",
+   "ok": true
+  },
+  {
+   "name": "ND96 host (Oracle VM)",
+   "detail": "HTTP 200",
+   "ok": true
+  },
+  {
+   "name": "ND96 kayak (Oracle VM)",
+   "detail": "HTTP 200",
+   "ok": true
+  },
+  {
+   "name": "Disk /opt/data",
+   "detail": "134G used of 952G (15%)",
+   "ok": true
+  },
+  {
+   "name": "Load average",
+   "detail": "17.49 15.47 13.30",
+   "ok": true
+  }
+ ],
+ "crons": [
+  {
+   "name": "21st.dev design library fetch",
+   "schedule": "every 240m",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Blender MCP watchdog",
+   "schedule": "every 5m",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Daily KSA deals digest — Eastern Province (4:30pm)",
+   "schedule": "30 13 * * *",
+   "enabled": true,
+   "deliver": "origin"
+  },
+  {
+   "name": "Green coffee watch: 10kg KSA prices + world C-price",
+   "schedule": "0 6 * * 1,4",
+   "enabled": true,
+   "deliver": "origin"
+  },
+  {
+   "name": "Hermes backup",
+   "schedule": "0 3 * * 0",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Hermes health watch",
+   "schedule": "every 10m",
+   "enabled": true,
+   "deliver": "local"
+  },
+  {
+   "name": "itlala-watch-sweep",
+   "schedule": "every 360m",
+   "enabled": true,
+   "deliver": "telegram topic 7"
+  },
+  {
+   "name": "opencode-deepseek-1017-watch",
+   "schedule": "every 30m",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Pinned project cards refresh",
+   "schedule": "every 60m",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Run resumer (provider outages)",
+   "schedule": "every 10m",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Silent-work heartbeat",
+   "schedule": "every 20m",
+   "enabled": true,
+   "deliver": "local"
+  },
+  {
+   "name": "Skill & MCP freshness sweep",
+   "schedule": "0 5 1 * *",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Studio site refresh",
+   "schedule": "0 4 * * *",
+   "enabled": true,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "Torani caramel + white chocolate sauce restock watch (KSA)",
+   "schedule": "0 6 * * 1,4",
+   "enabled": true,
+   "deliver": "origin"
+  },
+  {
+   "name": "VGM vinyl watch: retail restocks + Discogs aftermarket + new pressings",
+   "schedule": "every 180m",
+   "enabled": true,
+   "deliver": "origin"
+  },
+  {
+   "name": "إطلالة demo tunnel watchdog",
+   "schedule": "every 15m",
+   "enabled": true,
+   "deliver": "origin"
+  },
+  {
+   "name": "Kanban progress ping",
+   "schedule": "every 5m",
+   "enabled": false,
+   "deliver": "telegram topic 1"
+  },
+  {
+   "name": "ND96 user9130 independent quality supervision",
+   "schedule": "every 4m",
+   "enabled": false,
+   "deliver": "local"
+  }
+ ],
+ "skills": {
+  "bundles": 136,
+  "skills": 272,
+  "plugin_skills": 20,
+  "kits": [
+   "web-editorial",
+   "game-three",
+   "motion-hyperframes"
+  ],
+  "scripts": 196,
+  "plugins": [
+   "ai-usage-tracker",
+   "artifact-relay",
+   "aux-ledger",
+   "crawl4ai",
+   "creative-quality",
+   "cronalytics",
+   "diff-review",
+   "epistemic-harness",
+   "hermes-telemetry",
+   "honcho",
+   "mem0",
+   "planning-with-files",
+   "rtk-rewrite",
+   "skill-retrieval",
+   "skill-router",
+   "source-tray",
+   "stream-speed",
+   "superpowers",
+   "tool-slimmer",
+   "toolaria",
+   "web-defuddle",
+   "web-search-plus"
+  ]
+ },
+ "clis": [
+  {
+   "name": "Hermes Agent",
+   "version": "Hermes Agent v0.22.2 (2026.9.24) · upstream d923a5eb"
+  },
+  {
+   "name": "Node.js",
+   "version": "v26.7.0"
+  },
+  {
+   "name": "Python",
+   "version": "Python 3.14.7"
+  },
+  {
+   "name": "FFmpeg",
+   "version": "ffmpeg version n9.0.1-11-ge47273f4d9-20260831"
+  },
+  {
+   "name": "Godot",
+   "version": "4.7.2.stable.official.ed1daf0bf"
+  },
+  {
+   "name": "Blender",
+   "version": "Blender 4.5.9 LTS"
+  },
+  {
+   "name": "gh CLI",
+   "version": "gh version 2.101.0 (2026-09-15)"
+  },
+  {
+   "name": "uv / uvx",
+   "version": "uvx 0.12.3 (x86_64-unknown-linux-gnu)"
+  },
+  {
+   "name": "npx",
+   "version": "12.0.2"
+  }
+ ],
+ "projects": [
+  {
+   "id": "itlala",
+   "title": "إطلالة Itlala — AI personal shopper",
+   "topic": 7,
+   "status": "Phone UI pass LIVE (2026-10-21): typographic wordmark (إطلالة over ITLALA), hero chips that fill their own sentence, outfits before the shared essentials, one count per row, no clipped pieces in the flat-lay.",
+   "live": [
+    [
+     "Demo (tunnel, follows rotation)",
+     "auto:itlala-tunnel"
+    ]
+   ],
+   "video": null,
+   "next": "Owner review of the phone pass; share-sheet export; Styli adapter (stylishop.com)."
+  },
+  {
+   "id": "nd96",
+   "title": "ND96 — National Day game (Asir)",
+   "topic": 2478,
+   "status": "Asir crowd pass LIVE (2026-10-21): wide gentle road for a crowd, wheel-like steering, soft walls, true-circle loop, GTA-style wall ride; crowd sim 20/20 laps.",
+   "live": [
+    [
+     "Host",
+     "https://nd96-8d938128.nip.io/host"
+    ],
+    [
+     "Play",
+     "https://nd96-8d938128.nip.io/play"
+    ]
+   ],
+   "video": "/opt/data/game-art-runs/20261014/asir-phase2/worktree/docs/evidence/crowd-20261021/asir-crowd-film.mp4",
+   "next": "Game night 2026-10-22 (20-40 players). Deploy freeze from 2026-10-21 15:00 UTC."
+  },
+  {
+   "id": "director",
+   "title": "Creative Director — Afterlight · Vesper · Chroma",
+   "topic": 15248,
+   "status": "Pass finished; director idle. Rule now: one round per pass, then report and stop.",
+   "live": [
+    [
+     "Afterlight",
+     "https://hermesalfredguy.github.io/afterlight-20261018/"
+    ],
+    [
+     "Vesper",
+     "https://hermesalfredguy.github.io/vesper-website-20261018/"
+    ]
+   ],
+   "video": "/opt/data/projects/vesper-website-20261018/docs/pass2/vesper-pass3-film.mp4",
+   "next": "Next pass only when the owner asks."
+  },
+  {
+   "id": "afterlight",
+   "title": "Afterlight — DeepSeek Creative Lab",
+   "topic": 15190,
+   "status": "Paused by the owner (2026-10-20). Pass-3 graphics work stopped part-way; edits left uncommitted in the workspace.",
+   "live": [
+    [
+     "Site",
+     "https://hermesalfredguy.github.io/afterlight-20261018/"
+    ]
+   ],
+   "video": "/opt/data/projects/afterlight-20261018/docs/pass2/afterlight-pass2-1080p.mp4",
+   "next": "Paused. Resume only when the owner asks."
+  },
+  {
+   "id": "vesper",
+   "title": "Vesper — DeepSeek Web Lab",
+   "topic": 15218,
+   "status": "Site published; lamp object + film (pass 3).",
+   "live": [
+    [
+     "Site",
+     "https://hermesalfredguy.github.io/vesper-website-20261018/"
+    ]
+   ],
+   "video": "/opt/data/projects/vesper-website-20261018/docs/pass2/vesper-pass3-film.mp4",
+   "next": ""
+  },
+  {
+   "id": "chroma",
+   "title": "CHROMA — DeepSeek Motion Lab",
+   "topic": 15203,
+   "status": "2D film, 24 s, 16:9 and 9:16 masters rendered.",
+   "live": [],
+   "video": "/opt/data/projects/chroma-motion-20261018/out/CHROMA_2D_1920x1080_24s_share.mp4",
+   "next": ""
+  },
+  {
+   "id": "neo",
+   "title": "NEO — agentic AI launch site + film",
+   "topic": 12922,
+   "status": "Removed by the owner (2026-10-20). Both NEO sites are offline; the repos are private and kept.",
+   "live": [],
+   "video": null,
+   "next": "None."
+  },
+  {
+   "id": "studio",
+   "title": "Hermes Studio — tooling & kits",
+   "topic": 1,
+   "status": "Kits: web-editorial, game-three, motion (brand-opener, anthem). New: one-take voiceover + beat warp (anthem motion 5.95 vs Oddfellows 6.1), motion gate, a11y/contrast gate in web QA. Hermes film tests: 6/10 → 6.5/10. Motion retrofit 20 Oct: full motion forced always (no OS reduced-motion checks, no toggle), live + QA ok.",
+   "live": [
+    [
+     "Studio site",
+     "https://hermesalfredguy.github.io/hermes-studio/"
+    ],
+    [
+     "TIDEWORK site",
+     "https://hermesalfredguy.github.io/tidework-studio/"
+    ],
+    [
+     "Ember Run game",
+     "https://hermesalfredguy.github.io/ember-run/"
+    ]
+   ],
+   "video": "/opt/data/kits/motion-hyperframes/anthem/anthem.mp4",
+   "next": "Itlala UX/UI overhaul (Hermes), then a third Hermes film test with the one-take recipe."
+  },
+  {
+   "id": "clumsy-claw",
+   "title": "Clumsy Claw — first-person physics cooking game",
+   "topic": 36,
+   "status": "M2 core loop shipped (v0.4.1-m2) in a private repo; the 11 Oct player-feedback + audio cycle is green but still uncommitted (8 modified files, 7 new audio/test scripts).",
+   "live": [],
+   "video": "",
+   "next": "Commit the feedback/audio cycle and re-run tools/checks.sh, then the M3 art + 120 FPS pass."
+  },
+  {
+   "id": "kayak-game",
+   "title": "Wadi Paddle — ND96 kayak race",
+   "topic": 10075,
+   "status": "Pass II «تجديف الوادي» live on the Oracle VM: verify event 55 OK, npm test 95/0, live round completed 15 Oct. Motion retrofit 20 Oct live: full motion forced always, no toggle, QA ok.",
+   "live": [
+    [
+     "Host screen",
+     "https://kayak-8d938128.nip.io/host"
+    ],
+    [
+     "Play (phone)",
+     "https://kayak-8d938128.nip.io/play"
+    ]
+   ],
+   "video": "",
+   "next": "No open defect from the last verify; next pass waits on the owner."
+  },
+  {
+   "id": "cartoon-studio",
+   "title": "Cartoon Studio — The Last Lumen",
+   "topic": 10569,
+   "status": "The Last Lumen delivered and verified: 1080p 40 s film (960 frames, 24 fps) plus three 6 s style studies and an 18 s comparison; two earlier episodes rendered.",
+   "live": [],
+   "video": "/opt/data/home/cartoon-studio/films/last-lumen/last-lumen-1080p.mp4",
+   "next": "Studio idle — the next episode needs a brief from the owner."
+  },
+  {
+   "id": "lathe",
+   "title": "Lathe — agentic landing page",
+   "topic": 6221,
+   "status": "Single-page Lathe site finished and audited over six rounds (Lighthouse, keyboard + touch probes, desktop and phone screenshots); lives only in /opt/data/projects/agentic-landing — never deployed, no repo.",
+   "live": [],
+   "video": "",
+   "next": "Needs a public home: a static-export Pages deploy would give it its first live URL."
+  },
+  {
+   "id": "ember-run",
+   "title": "Ember Run — browser game",
+   "topic": null,
+   "status": "Live demo.",
+   "live": [
+    [
+     "Play",
+     "https://hermesalfredguy.github.io/ember-run/"
+    ]
+   ],
+   "video": null,
+   "next": ""
+  },
+  {
+   "id": "hermes-studio",
+   "title": "Hermes Studio — showcase site",
+   "topic": null,
+   "status": "Live — work list generated from the registry (11 projects, thumbnails, live links); daily refresh job at 04:00 UTC.",
+   "live": [
+    [
+     "Site",
+     "https://hermesalfredguy.github.io/hermes-studio/"
+    ]
+   ],
+   "video": null,
+   "next": "New showcase entries with a live link appear on the next build (or the 04:00 refresh); add them to data/work.notes.json for voice/order."
+  },
+  {
+   "id": "tidework-studio",
+   "title": "Tidework — brand studio site",
+   "topic": null,
+   "status": "Live.",
+   "live": [
+    [
+     "Site",
+     "https://hermesalfredguy.github.io/tidework-studio/"
+    ]
+   ],
+   "video": null,
+   "next": ""
+  },
+  {
+   "id": "handheld-oneshot-test",
+   "title": "TOCK & friends — handheld launch-site test",
+   "topic": null,
+   "status": "4 one-shot pages (DeepSeek/MiniMax, raw/brief/auto-brief).",
+   "live": [
+    [
+     "Gallery",
+     "https://hermesalfredguy.github.io/handheld-oneshot-test/"
+    ],
+    [
+     "TOCK",
+     "https://hermesalfredguy.github.io/handheld-oneshot-test/deepseek-auto/"
+    ]
+   ],
+   "video": null,
+   "next": ""
+  },
+  {
+   "id": "tomo-01",
+   "title": "Tomo-01 — handheld launch site",
+   "topic": null,
+   "status": "Live. Paper-catalogue launch page for a fictional two-screen handheld: bespoke Three.js device (hinge opens on scroll 0-113 deg, two live canvas LCDs), Pebble Garden playable in the page, opt-in synthesised sound, colour studio. Press loop 20s 16:9 + social cut 15s 9:16, both passing the film motion gate. studio-qa green (0 axe, 0 errors, 0 overflow, 0 small tap targets); mobile nav-clearance and anchor scroll-padding fixed after a rubric critique pass (7.1 -> 7.7). Phone pass 2026-10-21: the fixed WebGL canvas now places the device in reserved document-flow bands solved from the measured rect, so nothing can sit under it; 0 text/device overlaps at 390x844 and 360x780, 0 tap targets under 44px, 0 body copy under 15px, playable console in one viewport, desktop layout unchanged (28/29 measured fields identical to the pre-change build).",
+   "live": [
+    [
+     "Live site",
+     "https://hermesalfredguy.github.io/tomo-01/"
+    ]
+   ],
+   "video": "/opt/data/projects/a-launch-website-for-a-small-handheld-ga/docs/final/press-loop-16x9.mp4",
+   "next": "Owner review. Optional next: per-colour device stills, lazy-load the three.js device, wire a real storefront."
+  }
+ ]
+}

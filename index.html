@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hermes · Tool Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2308090b'/%3E%3Ccircle cx='8' cy='8' r='3' fill='%23c9764a'/%3E%3C/svg%3E">
+<meta name="description" content="Live inventory of every tool, server, job and project on this Hermes install.">
+<style>
+  :root {
+    --bg:#08090b; --panel:#0e1013; --panel2:#12151a; --ink:#ecebe6; --dim:#a3a9b1;
+    --line:#1d2126; --ok:#6fe0a6; --warn:#e3b169; --bad:#e06c62; --accent:#c9764a;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font:15.5px/1.58 ui-sans-serif,system-ui,"Inter","Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased; }
+  .mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13px; }
+  .dim { color:var(--dim); }
+  a { color:inherit; }
+  .wrap { max-width:1220px; margin:0 auto; padding:0 28px; }
+  header.top { padding:64px 0 28px; border-bottom:1px solid var(--line); }
+  .eyebrow { display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+    font-family:ui-monospace,monospace; font-size:11.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--dim); }
+  h1 { margin:14px 0 6px; font-size:clamp(34px,5vw,58px); line-height:1.02;
+    font-weight:600; letter-spacing:-.03em; }
+  h1 em { font-style:normal; color:var(--accent); }
+  .lede { margin:0; max-width:62ch; color:var(--dim); font-size:16px; }
+  .stats { display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+    border-bottom:1px solid var(--line); }
+  .stat { padding:26px 22px 24px; border-right:1px solid var(--line); }
+  .stat:first-child { padding-left:28px; }
+  .stat:last-child { border-right:0; }
+  .stat b { display:block; font-size:30px; font-weight:600; letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums; }
+  .stat span { font-family:ui-monospace,monospace; font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:#aab1b9; }
+  main { display:grid; grid-template-columns:186px 1fr; gap:52px; padding:44px 0 90px; }
+  main > * { min-width:0; }
+  table { table-layout:fixed; }
+  nav.toc { position:sticky; top:28px; align-self:start; font-family:ui-monospace,monospace;
+    font-size:12px; }
+  nav.toc ol { list-style:none; margin:14px 0 0; padding:0; display:grid; gap:11px; }
+  nav.toc a { text-decoration:none; color:#949ba3; display:flex; gap:10px; align-items:baseline; }
+  nav.toc a:hover, nav.toc a:focus-visible { color:var(--ink); }
+  nav.toc input::placeholder { color:#6f767e; }
+  nav.toc a i { font-style:normal; color:#4c5259; }
+  .search input { width:100%; background:var(--panel); border:1px solid var(--line);
+    color:var(--ink); padding:8px 10px; font:12px ui-monospace,monospace; border-radius:4px; }
+  .search input:focus { outline:none; border-color:#39424c; }
+  section { margin-bottom:62px; scroll-margin-top:24px; }
+  section > h2 { display:flex; align-items:baseline; gap:12px; margin:0 0 6px;
+    font-size:19px; font-weight:600; letter-spacing:-.01em; }
+  section > h2 i { font-style:normal; font-family:ui-monospace,monospace; font-size:11px;
+    color:var(--accent); letter-spacing:.1em; }
+  .sub { margin:0 0 18px; color:var(--dim); font-size:13.5px; }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; font-family:ui-monospace,monospace; font-size:11px;
+    letter-spacing:.11em; text-transform:uppercase; color:#8d949c; font-weight:400;
+    padding:0 12px 9px 0; border-bottom:1px solid var(--line); }
+  td { padding:11px 12px 11px 0; border-bottom:1px solid #191d22; vertical-align:middle; }
+  tr:hover td { background:#0d1014; }
+  .num, th.num { text-align:right; font-family:ui-monospace,monospace;
+    font-variant-numeric:tabular-nums; padding-right:26px; }
+  td.name { white-space:nowrap; font-weight:500; overflow:hidden; text-overflow:ellipsis; }
+  .ellip { max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    display:block; }
+  .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:9px;
+    vertical-align:middle; background:var(--ok); box-shadow:0 0 0 3px rgba(111,224,166,.09); }
+  .dot.muted { background:#4d545c; box-shadow:none; }
+  .dot.bad { background:var(--bad); box-shadow:0 0 0 3px rgba(224,108,98,.1); }
+  td.live { color:var(--ok); } td.off { color:#5d646c; } td.fail { color:var(--bad); }
+  .tag { font:10px ui-monospace,monospace; color:#a4abb3; border:1px solid #2a3037;
+    padding:1px 5px; border-radius:3px; margin-left:7px; }
+  .row-off td { opacity:.5; }
+  ul.ts { list-style:none; margin:0; padding:0; display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:2px 22px; }
+  ul.ts li { display:flex; align-items:baseline; padding:7px 0; border-bottom:1px solid #14171b; }
+  .ts-name { font-family:ui-monospace,monospace; font-size:12.5px; }
+  .ts-label { margin-left:auto; font-size:12px; text-align:right; }
+  ul.ts li.offf { opacity:.45; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:44px; }
+  .proj { border-top:1px solid var(--line); padding:18px 0 20px; }
+  .proj header { display:flex; align-items:baseline; justify-content:space-between; gap:16px; }
+  .proj h3 { margin:0; font-size:16.5px; font-weight:600; letter-spacing:-.01em; }
+  .proj .status { margin:8px 0 6px; color:#cfcdc7; font-size:14px; max-width:74ch; }
+  .proj .next { margin:0 0 12px; font-size:13px; color:var(--dim); max-width:74ch; }
+  .proj .k { font-family:ui-monospace,monospace; font-size:10.5px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--accent); margin-right:6px; }
+  .links { display:flex; flex-wrap:wrap; gap:8px; }
+  .pill { text-decoration:none; font:11.5px ui-monospace,monospace; color:#cfcdc7;
+    border:1px solid #262c33; padding:3px 9px; border-radius:999px; }
+  .pill:hover { border-color:var(--accent); color:#fff; }
+  footer { border-top:1px solid var(--line); padding:26px 0 60px; color:#5d646c;
+    font:12px ui-monospace,monospace; display:flex; justify-content:space-between; gap:20px;
+    flex-wrap:wrap; }
+  .reveal { opacity:0; transform:translateY(10px);
+    animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes rise { to { opacity:1; transform:none; } }
+  @media (max-width:900px) {
+    .wrap { padding:0 18px; }
+    .stats { grid-template-columns:repeat(2,1fr); }
+    .stat { border-bottom:1px solid var(--line); }
+    .stat:nth-child(2n) { border-right:0; }
+    main { grid-template-columns:1fr; gap:26px; }
+    nav.toc { position:static; }
+    nav.toc ol { grid-template-columns:1fr; gap:9px; font-size:12px; }
+    nav.toc a { min-width:0; }
+    nav.toc a i { width:16px; flex:0 0 16px; }
+    .stat:last-child { grid-column:1 / -1; border-right:0; }
+    .grid2 { grid-template-columns:1fr; gap:0; }
+    .ellip { max-width:170px; }
+    table.mcp th:nth-child(2), table.mcp td:nth-child(2),
+    table.mcp th:nth-child(3), table.mcp td:nth-child(3),
+    table.mcp th:nth-child(5), table.mcp td:nth-child(5),
+    table.mcp th:nth-child(6), table.mcp td:nth-child(6) { display:none; }
+    table.mcp td { padding-right:10px; }
+    td.name { white-space:normal; }
+    table.crons th:nth-child(3), table.crons td:nth-child(3) { display:none; }
+    .ellip { max-width:100%; }
+    body { overflow-x:hidden; }
+  }
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow"><span>Hermes Agent · hermes</span><span>2026-10-21 13:59 UTC</span></div>
+  <h1>Tool <em>tracker</em></h1>
+  <p class="lede">Every capability on this install, checked against the live system:
+     25 MCP servers hand-tested, 24 native toolsets,
+     18 scheduled jobs and 17 projects.</p>
+</div></header>
+
+<div class="wrap"><div class="stats">
+  <div class="stat"><b>25<span class="dim">/25</span></b><span>MCP servers live</span></div>
+  <div class="stat"><b>583</b><span>MCP tools exposed</span></div>
+  <div class="stat"><b>17<span class="dim">/24</span></b><span>Native toolsets</span></div>
+  <div class="stat"><b>16<span class="dim">/18</span></b><span>Cron jobs active</span></div>
+  <div class="stat"><b>10<span class="dim">/10</span></b><span>Services healthy</span></div>
+</div></div>
+
+<main class="wrap">
+  <nav class="toc">
+    <div class="search"><input id="q" placeholder="filter…" aria-label="Filter rows"></div>
+    <ol>
+      <li><a href="#mcp"><i>01</i>MCP servers</a></li>
+      <li><a href="#native"><i>02</i>Toolsets</a></li>
+      <li><a href="#skills"><i>03</i>Skills</a></li>
+      <li><a href="#services"><i>04</i>Services</a></li>
+      <li><a href="#crons"><i>05</i>Scheduled</a></li>
+      <li><a href="#projects"><i>06</i>Projects</a></li>
+      <li><a href="#runtimes"><i>07</i>Runtimes</a></li>
+    </ol>
+  </nav>
+
+  <div class="content">
+    <section id="mcp" class="reveal">
+      <h2><i>01</i> MCP servers</h2>
+      <p class="sub">Each enabled server was connected for real with <code>hermes mcp test</code>;
+         tool counts and handshake times are measured, not configured.</p>
+      <table class="mcp"><thead><tr><th>Server</th><th>Transport</th><th>Target</th><th class="num">Tools</th>
+        <th>Exposure</th><th>Handshake</th><th>State</th></tr></thead>
+        <tbody><tr data-search="kinocut /opt/data/integrations/kinocut/.venv/bin/kino --mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>kinocut <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/integrations/kinocut/.venv/bin/kino --mcp">/opt/data/integrations/kinocut/.venv/bin/kino --mcp</td><td class="num">203</td><td class="mono dim">all tools</td><td class="mono dim">4943 ms</td><td class="mono live">live</td></tr>
+<tr data-search="threejs-devtools npx -y threejs-devtools-mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>threejs-devtools <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y threejs-devtools-mcp">npx -y threejs-devtools-mcp</td><td class="num">69</td><td class="mono dim">all tools</td><td class="mono dim">5989 ms</td><td class="mono live">live</td></tr>
+<tr data-search="21st https://21st.dev/api/mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>21st</td><td class="mono dim">http</td><td class="mono dim ellip" title="https://21st.dev/api/mcp">https://21st.dev/api/mcp</td><td class="num">51</td><td class="mono dim">7 selected</td><td class="mono dim">4828 ms</td><td class="mono live">live</td></tr>
+<tr data-search="godot-toolkit /opt/hermes/.venv/bin/python /opt/data/scripts/godot-mcp-launcher.py"><td class="name"><span class="dot ok" aria-hidden="true"></span>godot-toolkit <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/hermes/.venv/bin/python /opt/data/scripts/godot-mcp-launcher.py">/opt/hermes/.venv/bin/python /opt/data/scripts/godot-mcp-launcher.py</td><td class="num">36</td><td class="mono dim">all tools</td><td class="mono dim">6751 ms</td><td class="mono live">live</td></tr>
+<tr data-search="chrome-devtools npx -y chrome-devtools-mcp@latest --headless --isolated --no-usage-statistics --executablePath /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --chromeArg=--no-sandbox"><td class="name"><span class="dot ok" aria-hidden="true"></span>chrome-devtools</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y chrome-devtools-mcp@latest --headless --isolated --no-usage-statistics --executablePath /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --chromeArg=--no-sandbox">npx -y chrome-devtools-mcp@latest --headless --isolated --no-usage-statistics --executablePath /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --chromeArg=--no-sandbox</td><td class="num">32</td><td class="mono dim">all tools</td><td class="mono dim">3455 ms</td><td class="mono live">live</td></tr>
+<tr data-search="playwright /opt/data/integrations/node/node_modules/.bin/playwright-mcp --headless --isolated --executable-path /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --idle-timeout 900000"><td class="name"><span class="dot ok" aria-hidden="true"></span>playwright <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/integrations/node/node_modules/.bin/playwright-mcp --headless --isolated --executable-path /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --idle-timeout 900000">/opt/data/integrations/node/node_modules/.bin/playwright-mcp --headless --isolated --executable-path /opt/data/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome --idle-timeout 900000</td><td class="num">25</td><td class="mono dim">12 selected</td><td class="mono dim">2586 ms</td><td class="mono live">live</td></tr>
+<tr data-search="godot-editor uvx godot-editor-mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>godot-editor <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="uvx godot-editor-mcp">uvx godot-editor-mcp</td><td class="num">24</td><td class="mono dim">all tools</td><td class="mono dim">8611 ms</td><td class="mono live">live</td></tr>
+<tr data-search="serena /opt/data/.local/bin/serena start-mcp-server --context claude-code --project-from-cwd --enable-web-dashboard false --enable-gui-log-window false"><td class="name"><span class="dot ok" aria-hidden="true"></span>serena <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/.local/bin/serena start-mcp-server --context claude-code --project-from-cwd --enable-web-dashboard false --enable-gui-log-window false">/opt/data/.local/bin/serena start-mcp-server --context claude-code --project-from-cwd --enable-web-dashboard false --enable-gui-log-window false</td><td class="num">23</td><td class="mono dim">13 selected</td><td class="mono dim">4060 ms</td><td class="mono live">live</td></tr>
+<tr data-search="godot npx -y @coding-solo/godot-mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>godot</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y @coding-solo/godot-mcp">npx -y @coding-solo/godot-mcp</td><td class="num">14</td><td class="mono dim">all tools</td><td class="mono dim">2381 ms</td><td class="mono live">live</td></tr>
+<tr data-search="filesystem npx -y @modelcontextprotocol/server-filesystem /opt/data/projects /home/hermes/projects /home/hermes/Desktop /opt/data/game-art-runs /opt/data/work /opt/data/kanban/workspaces /opt/data/improvement-runs /opt/data/integration-research /opt/data/home/cartoon-studio /opt/data/animation-audits"><td class="name"><span class="dot ok" aria-hidden="true"></span>filesystem</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y @modelcontextprotocol/server-filesystem /opt/data/projects /home/hermes/projects /home/hermes/Desktop /opt/data/game-art-runs /opt/data/work /opt/data/kanban/workspaces /opt/data/improvement-runs /opt/data/integration-research /opt/data/home/cartoon-studio /opt/data/animation-audits">npx -y @modelcontextprotocol/server-filesystem /opt/data/projects /home/hermes/projects /home/hermes/Desktop /opt/data/game-art-runs /opt/data/work /opt/data/kanban/workspaces /opt/data/improvement-runs /opt/data/integration-research /opt/data/home/cartoon-studio /opt/data/animation-audits</td><td class="num">14</td><td class="mono dim">all tools</td><td class="mono dim">2750 ms</td><td class="mono live">live</td></tr>
+<tr data-search="spector node /opt/data/integrations/spector/mcp/dist/index.js"><td class="name"><span class="dot ok" aria-hidden="true"></span>spector <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="node /opt/data/integrations/spector/mcp/dist/index.js">node /opt/data/integrations/spector/mcp/dist/index.js</td><td class="num">13</td><td class="mono dim">12 selected</td><td class="mono dim">2206 ms</td><td class="mono live">live</td></tr>
+<tr data-search="git uvx mcp-server-git --repository /opt/data/projects/nd96-games"><td class="name"><span class="dot ok" aria-hidden="true"></span>git</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="uvx mcp-server-git --repository /opt/data/projects/nd96-games">uvx mcp-server-git --repository /opt/data/projects/nd96-games</td><td class="num">12</td><td class="mono dim">all tools</td><td class="mono dim">3892 ms</td><td class="mono live">live</td></tr>
+<tr data-search="pollinations node /opt/data/home/cartoon-studio/node_modules/@pollinations/model-context-protocol/pollinations-mcp.js --connect-timeout 60 --accept-hooks"><td class="name"><span class="dot ok" aria-hidden="true"></span>pollinations</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="node /opt/data/home/cartoon-studio/node_modules/@pollinations/model-context-protocol/pollinations-mcp.js --connect-timeout 60 --accept-hooks">node /opt/data/home/cartoon-studio/node_modules/@pollinations/model-context-protocol/pollinations-mcp.js --connect-timeout 60 --accept-hooks</td><td class="num">12</td><td class="mono dim">all tools</td><td class="mono dim">3173 ms</td><td class="mono live">live</td></tr>
+<tr data-search="blender /usr/local/bin/uvx mcp-for-blender"><td class="name"><span class="dot ok" aria-hidden="true"></span>blender</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/usr/local/bin/uvx mcp-for-blender">/usr/local/bin/uvx mcp-for-blender</td><td class="num">9</td><td class="mono dim">all tools</td><td class="mono dim">2654 ms</td><td class="mono live">live</td></tr>
+<tr data-search="postgres /usr/local/bin/uvx --python 3.13 --overrides /opt/data/integrations/postgres-mcp/overrides.txt --with mcp&lt;2 --from postgres-mcp==0.3.0 postgres-mcp --access-mode=restricted"><td class="name"><span class="dot ok" aria-hidden="true"></span>postgres</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/usr/local/bin/uvx --python 3.13 --overrides /opt/data/integrations/postgres-mcp/overrides.txt --with mcp&lt;2 --from postgres-mcp==0.3.0 postgres-mcp --access-mode=restricted">/usr/local/bin/uvx --python 3.13 --overrides /opt/data/integrations/postgres-mcp/overrides.txt --with mcp&lt;2 --from postgres-mcp==0.3.0 postgres-mcp --access-mode=restricted</td><td class="num">9</td><td class="mono dim">all tools</td><td class="mono dim">3613 ms</td><td class="mono live">live</td></tr>
+<tr data-search="shadcn npx -y shadcn@4.21.0 mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>shadcn</td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y shadcn@4.21.0 mcp">npx -y shadcn@4.21.0 mcp</td><td class="num">7</td><td class="mono dim">all tools</td><td class="mono dim">4436 ms</td><td class="mono live">live</td></tr>
+<tr data-search="semgrep /opt/data/.local/bin/semgrep mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>semgrep <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/.local/bin/semgrep mcp">/opt/data/.local/bin/semgrep mcp</td><td class="num">7</td><td class="mono dim">5 selected</td><td class="mono dim">7539 ms</td><td class="mono live">live</td></tr>
+<tr data-search="audio-studio /opt/data/integrations/audio-studio/.venv/bin/python /opt/data/integrations/audio-studio/server.py"><td class="name"><span class="dot ok" aria-hidden="true"></span>audio-studio <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/integrations/audio-studio/.venv/bin/python /opt/data/integrations/audio-studio/server.py">/opt/data/integrations/audio-studio/.venv/bin/python /opt/data/integrations/audio-studio/server.py</td><td class="num">7</td><td class="mono dim">all tools</td><td class="mono dim">4194 ms</td><td class="mono live">live</td></tr>
+<tr data-search="next-devtools /opt/data/integrations/node/node_modules/.bin/next-devtools-mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>next-devtools <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/integrations/node/node_modules/.bin/next-devtools-mcp">/opt/data/integrations/node/node_modules/.bin/next-devtools-mcp</td><td class="num">4</td><td class="mono dim">3 selected</td><td class="mono dim">2039 ms</td><td class="mono live">live</td></tr>
+<tr data-search="deepwiki https://mcp.deepwiki.com/mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>deepwiki</td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.deepwiki.com/mcp">https://mcp.deepwiki.com/mcp</td><td class="num">3</td><td class="mono dim">all tools</td><td class="mono dim">5410 ms</td><td class="mono live">live</td></tr>
+<tr data-search="hyperiux npx -y hyperiux-mcp-server"><td class="name"><span class="dot ok" aria-hidden="true"></span>hyperiux <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="npx -y hyperiux-mcp-server">npx -y hyperiux-mcp-server</td><td class="num">3</td><td class="mono dim">all tools</td><td class="mono dim">3192 ms</td><td class="mono live">live</td></tr>
+<tr data-search="context7 https://mcp.context7.com/mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>context7</td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.context7.com/mcp">https://mcp.context7.com/mcp</td><td class="num">2</td><td class="mono dim">all tools</td><td class="mono dim">4400 ms</td><td class="mono live">live</td></tr>
+<tr data-search="better-auth https://mcp.better-auth.com/mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>better-auth</td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.better-auth.com/mcp">https://mcp.better-auth.com/mcp</td><td class="num">2</td><td class="mono dim">all tools</td><td class="mono dim">4342 ms</td><td class="mono live">live</td></tr>
+<tr data-search="markitdown /opt/data/.local/bin/markitdown-mcp"><td class="name"><span class="dot ok" aria-hidden="true"></span>markitdown <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/.local/bin/markitdown-mcp">/opt/data/.local/bin/markitdown-mcp</td><td class="num">1</td><td class="mono dim">all tools</td><td class="mono dim">3461 ms</td><td class="mono live">live</td></tr>
+<tr data-search="motion https://mcp.motion.dev"><td class="name"><span class="dot ok" aria-hidden="true"></span>motion <span class='tag'>lazy</span></td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.motion.dev">https://mcp.motion.dev</td><td class="num">1</td><td class="mono dim">all tools</td><td class="mono dim">4611 ms</td><td class="mono live">live</td></tr>
+<tr data-search="neo-storybook python3 /opt/data/integrations/storybook-mcp/launch.py"><td class="name"><span class="dot muted" aria-hidden="true"></span>neo-storybook <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="python3 /opt/data/integrations/storybook-mcp/launch.py">python3 /opt/data/integrations/storybook-mcp/launch.py</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="figma https://mcp.figma.com/mcp"><td class="name"><span class="dot muted" aria-hidden="true"></span>figma <span class='tag'>lazy</span></td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.figma.com/mcp">https://mcp.figma.com/mcp</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="hugging_face https://huggingface.co/mcp"><td class="name"><span class="dot muted" aria-hidden="true"></span>hugging_face <span class='tag'>lazy</span></td><td class="mono dim">http</td><td class="mono dim ellip" title="https://huggingface.co/mcp">https://huggingface.co/mcp</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="globalping https://mcp.globalping.dev/mcp"><td class="name"><span class="dot muted" aria-hidden="true"></span>globalping <span class='tag'>lazy</span></td><td class="mono dim">http</td><td class="mono dim ellip" title="https://mcp.globalping.dev/mcp">https://mcp.globalping.dev/mcp</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="n8n-official ${N8N_MCP_URL}"><td class="name"><span class="dot muted" aria-hidden="true"></span>n8n-official <span class='tag'>lazy</span></td><td class="mono dim">http</td><td class="mono dim ellip" title="${N8N_MCP_URL}">${N8N_MCP_URL}</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="grafana /usr/local/bin/uvx mcp-grafana"><td class="name"><span class="dot muted" aria-hidden="true"></span>grafana <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/usr/local/bin/uvx mcp-grafana">/usr/local/bin/uvx mcp-grafana</td><td class="num">–</td><td class="mono dim">all tools</td><td class="mono dim">—</td><td class="mono off">off</td></tr>
+<tr data-search="computer-use-linux /opt/data/integrations/node/node_modules/.bin/computer-use-linux mcp"><td class="name"><span class="dot muted" aria-hidden="true"></span>computer-use-linux <span class='tag'>lazy</span></td><td class="mono dim">stdio</td><td class="mono dim ellip" title="/opt/data/integrations/node/node_modules/.bin/computer-use-linux mcp">/opt/data/integrations/node/node_modules/.bin/computer-use-linux mcp</td><td class="num">–</td><td class="mono dim">7 selected</td><td class="mono dim">—</td><td class="mono off">off</td></tr></tbody></table>
+    </section>
+
+    <section id="native" class="reveal">
+      <h2><i>02</i> Native &amp; plugin toolsets</h2>
+      <p class="sub">17 of 24 built-in toolsets enabled, 5 plugin toolsets on.
+         Deferred MCP tools are reached through tool-slimmer.</p>
+      <div class="grid2">
+        <div><h3 class="mono dim" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px">Built-in</h3>
+          <ul class="ts"><li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">web</span><span class="ts-label dim">🔍 Web Search &amp; Scraping</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">browser</span><span class="ts-label dim">🌐 Browser Automation</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">terminal</span><span class="ts-label dim">💻 Terminal &amp; Processes</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">file</span><span class="ts-label dim">📁 File Operations</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">code_execution</span><span class="ts-label dim">⚡ Code Execution</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">vision</span><span class="ts-label dim">👁️  Vision / Image Analysis</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">video</span><span class="ts-label dim">🎬 Video Analysis</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">image_gen</span><span class="ts-label dim">🎨 Image Generation</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">video_gen</span><span class="ts-label dim">🎬 Video Generation</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">x_search</span><span class="ts-label dim">🐦 X (Twitter) Search</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">tts</span><span class="ts-label dim">🔊 Text-to-Speech</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">stt</span><span class="ts-label dim">🎙️ Speech-to-Text</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">skills</span><span class="ts-label dim">📚 Skills</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">todo</span><span class="ts-label dim">📋 Task Planning</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">kanban</span><span class="ts-label dim">📌 Kanban</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">memory</span><span class="ts-label dim">💾 Memory</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">context_engine</span><span class="ts-label dim">🧩 Context Engine</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">session_search</span><span class="ts-label dim">🔎 Session Search</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">connections</span><span class="ts-label dim">🔌 Connections</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">clarify</span><span class="ts-label dim">❓ Clarifying Questions</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">delegation</span><span class="ts-label dim">👥 Task Delegation</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">cronjob</span><span class="ts-label dim">⏰ Cron Jobs</span></li>
+<li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">yuanbao</span><span class="ts-label dim">🤖 Yuanbao</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">computer_use</span><span class="ts-label dim">🖱️  Computer Use (macOS/Windows/Linux)</span></li></ul></div>
+        <div><h3 class="mono dim" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px">Plugin</h3>
+          <ul class="ts"><li class="offf"><span class="dot muted" aria-hidden="true"></span><span class="ts-name">a2a</span><span class="ts-label dim">🔌 A2A</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">diff_review</span><span class="ts-label dim">🔌 Diff Review</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">epistemic-harness</span><span class="ts-label dim">🔌 Epistemic-Harness</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">source_tray</span><span class="ts-label dim">🔌 Source Tray</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">tool-slimmer</span><span class="ts-label dim">🔌 Tool-Slimmer</span></li>
+<li class="on"><span class="dot ok" aria-hidden="true"></span><span class="ts-name">web-search-plus</span><span class="ts-label dim">🔌 Web-Search-Plus</span></li></ul></div>
+      </div>
+    </section>
+
+    <section id="skills" class="reveal">
+      <h2><i>03</i> Skills, kits &amp; scripts</h2>
+      <p class="sub">272 skill files across 136 bundles, plus 20 plugin skills.</p>
+      <table><tbody>
+        <tr><td class="name">Skill bundles</td><td class="num">136</td><td class="mono dim">/opt/data/skills</td></tr>
+        <tr><td class="name">SKILL.md files</td><td class="num">272</td><td class="mono dim">loaded on demand</td></tr>
+        <tr><td class="name">Plugin skills</td><td class="num">20</td><td class="mono dim">/opt/data/plugins</td></tr>
+        <tr><td class="name">Kits</td><td class="num">3</td><td class="mono dim">web-editorial, game-three, motion-hyperframes</td></tr>
+        <tr><td class="name">Helper scripts</td><td class="num">196</td><td class="mono dim">/opt/data/scripts</td></tr>
+        <tr><td class="name">Plugins installed</td><td class="num">22</td><td class="mono dim">ai-usage-tracker, artifact-relay, aux-ledger, crawl4ai, creative-quality, cronalytics, diff-review, epistemic-harness…</td></tr>
+      </tbody></table>
+    </section>
+
+    <section id="services" class="reveal">
+      <h2><i>04</i> Services</h2>
+      <p class="sub">Probed at generation time: sockets, HTTP health endpoints, remote event hosts.</p>
+      <table><tbody><tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Hermes gateway</td><td class="mono dim ellip">pid 725239</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Telegram bridge</td><td class="mono dim ellip">channel -1003852072951</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Itlala demo · Next :9100</td><td class="mono dim ellip">200</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Typesense :8108</td><td class="mono dim ellip">health 200</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Demo tunnel (cloudflared)</td><td class="mono dim ellip">quick tunnel up</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Blender bridge :9876</td><td class="mono dim ellip">blender 4.5.9 + mcp-for-blender</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>ND96 host (Oracle VM)</td><td class="mono dim ellip">HTTP 200</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>ND96 kayak (Oracle VM)</td><td class="mono dim ellip">HTTP 200</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Disk /opt/data</td><td class="mono dim ellip">134G used of 952G (15%)</td></tr>
+<tr><td class="name"><span class="dot ok" aria-hidden="true"></span>Load average</td><td class="mono dim ellip">17.49 15.47 13.30</td></tr></tbody></table>
+    </section>
+
+    <section id="crons" class="reveal">
+      <h2><i>05</i> Scheduled jobs</h2>
+      <p class="sub">16 of 18 jobs enabled; disabled ones are kept for reference.</p>
+      <table class="crons"><thead><tr><th>Job</th><th>Schedule</th><th>Delivers to</th></tr></thead>
+      <tbody><tr data-search="21st.dev design library fetch" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>21st.dev design library fetch</td><td class="mono dim">every 240m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Blender MCP watchdog" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Blender MCP watchdog</td><td class="mono dim">every 5m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Daily KSA deals digest — Eastern Province (4:30pm)" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Daily KSA deals digest — Eastern Province (4:30pm)</td><td class="mono dim">30 13 * * *</td><td class="mono dim ellip">origin</td></tr>
+<tr data-search="Green coffee watch: 10kg KSA prices + world C-price" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Green coffee watch: 10kg KSA prices + world C-price</td><td class="mono dim">0 6 * * 1,4</td><td class="mono dim ellip">origin</td></tr>
+<tr data-search="Hermes backup" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Hermes backup</td><td class="mono dim">0 3 * * 0</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Hermes health watch" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Hermes health watch</td><td class="mono dim">every 10m</td><td class="mono dim ellip">local</td></tr>
+<tr data-search="itlala-watch-sweep" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>itlala-watch-sweep</td><td class="mono dim">every 360m</td><td class="mono dim ellip">telegram topic 7</td></tr>
+<tr data-search="opencode-deepseek-1017-watch" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>opencode-deepseek-1017-watch</td><td class="mono dim">every 30m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Pinned project cards refresh" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Pinned project cards refresh</td><td class="mono dim">every 60m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Run resumer (provider outages)" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Run resumer (provider outages)</td><td class="mono dim">every 10m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Silent-work heartbeat" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Silent-work heartbeat</td><td class="mono dim">every 20m</td><td class="mono dim ellip">local</td></tr>
+<tr data-search="Skill &amp; MCP freshness sweep" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Skill &amp; MCP freshness sweep</td><td class="mono dim">0 5 1 * *</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Studio site refresh" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Studio site refresh</td><td class="mono dim">0 4 * * *</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="Torani caramel + white chocolate sauce restock watch (KSA)" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>Torani caramel + white chocolate sauce restock watch (KSA)</td><td class="mono dim">0 6 * * 1,4</td><td class="mono dim ellip">origin</td></tr>
+<tr data-search="VGM vinyl watch: retail restocks + Discogs aftermarket + new pressings" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>VGM vinyl watch: retail restocks + Discogs aftermarket + new pressings</td><td class="mono dim">every 180m</td><td class="mono dim ellip">origin</td></tr>
+<tr data-search="إطلالة demo tunnel watchdog" class=""><td class="name"><span class="dot ok" aria-hidden="true"></span>إطلالة demo tunnel watchdog</td><td class="mono dim">every 15m</td><td class="mono dim ellip">origin</td></tr>
+<tr data-search="Kanban progress ping" class="row-off"><td class="name"><span class="dot muted" aria-hidden="true"></span>Kanban progress ping</td><td class="mono dim">every 5m</td><td class="mono dim ellip">telegram topic 1</td></tr>
+<tr data-search="ND96 user9130 independent quality supervision" class="row-off"><td class="name"><span class="dot muted" aria-hidden="true"></span>ND96 user9130 independent quality supervision</td><td class="mono dim">every 4m</td><td class="mono dim ellip">local</td></tr></tbody></table>
+    </section>
+
+    <section id="projects" class="reveal">
+      <h2><i>06</i> Projects · current progress</h2>
+      <p class="sub">Live from the registry: what shipped, what is paused, what comes next.</p>
+      <article class="proj" data-search="إطلالة Itlala — AI personal shopper Phone UI pass LIVE (2026-10-21): typographic wordmark (إطلالة over ITLALA), hero chips that fill their own sentence, outfits before the shared essentials, one count per row, no clipped pieces in the flat-lay."><header><h3>إطلالة Itlala — AI personal shopper</h3><span class="mono dim">topic 7</span></header><p class="status">Phone UI pass LIVE (2026-10-21): typographic wordmark (إطلالة over ITLALA), hero chips that fill their own sentence, outfits before the shared essentials, one count per row, no clipped pieces in the flat-lay.</p><p class="next"><span class="k">next</span> Owner review of the phone pass; share-sheet export; Styli adapter (stylishop.com).</p><div class="links"></div></article>
+<article class="proj" data-search="ND96 — National Day game (Asir) Asir crowd pass LIVE (2026-10-21): wide gentle road for a crowd, wheel-like steering, soft walls, true-circle loop, GTA-style wall ride; crowd sim 20/20 laps."><header><h3>ND96 — National Day game (Asir)</h3><span class="mono dim">topic 2478</span></header><p class="status">Asir crowd pass LIVE (2026-10-21): wide gentle road for a crowd, wheel-like steering, soft walls, true-circle loop, GTA-style wall ride; crowd sim 20/20 laps.</p><p class="next"><span class="k">next</span> Game night 2026-10-22 (20-40 players). Deploy freeze from 2026-10-21 15:00 UTC.</p><div class="links"><a class="pill" href="https://nd96-8d938128.nip.io/host" target="_blank" rel="noopener">Host</a> <a class="pill" href="https://nd96-8d938128.nip.io/play" target="_blank" rel="noopener">Play</a></div></article>
+<article class="proj" data-search="Creative Director — Afterlight · Vesper · Chroma Pass finished; director idle. Rule now: one round per pass, then report and stop."><header><h3>Creative Director — Afterlight · Vesper · Chroma</h3><span class="mono dim">topic 15248</span></header><p class="status">Pass finished; director idle. Rule now: one round per pass, then report and stop.</p><p class="next"><span class="k">next</span> Next pass only when the owner asks.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/afterlight-20261018/" target="_blank" rel="noopener">Afterlight</a> <a class="pill" href="https://hermesalfredguy.github.io/vesper-website-20261018/" target="_blank" rel="noopener">Vesper</a></div></article>
+<article class="proj" data-search="Afterlight — DeepSeek Creative Lab Paused by the owner (2026-10-20). Pass-3 graphics work stopped part-way; edits left uncommitted in the workspace."><header><h3>Afterlight — DeepSeek Creative Lab</h3><span class="mono dim">topic 15190</span></header><p class="status">Paused by the owner (2026-10-20). Pass-3 graphics work stopped part-way; edits left uncommitted in the workspace.</p><p class="next"><span class="k">next</span> Paused. Resume only when the owner asks.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/afterlight-20261018/" target="_blank" rel="noopener">Site</a></div></article>
+<article class="proj" data-search="Vesper — DeepSeek Web Lab Site published; lamp object + film (pass 3)."><header><h3>Vesper — DeepSeek Web Lab</h3><span class="mono dim">topic 15218</span></header><p class="status">Site published; lamp object + film (pass 3).</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/vesper-website-20261018/" target="_blank" rel="noopener">Site</a></div></article>
+<article class="proj" data-search="CHROMA — DeepSeek Motion Lab 2D film, 24 s, 16:9 and 9:16 masters rendered."><header><h3>CHROMA — DeepSeek Motion Lab</h3><span class="mono dim">topic 15203</span></header><p class="status">2D film, 24 s, 16:9 and 9:16 masters rendered.</p><div class="links"></div></article>
+<article class="proj" data-search="NEO — agentic AI launch site + film Removed by the owner (2026-10-20). Both NEO sites are offline; the repos are private and kept."><header><h3>NEO — agentic AI launch site + film</h3><span class="mono dim">topic 12922</span></header><p class="status">Removed by the owner (2026-10-20). Both NEO sites are offline; the repos are private and kept.</p><p class="next"><span class="k">next</span> None.</p><div class="links"></div></article>
+<article class="proj" data-search="Hermes Studio — tooling &amp; kits Kits: web-editorial, game-three, motion (brand-opener, anthem). New: one-take voiceover + beat warp (anthem motion 5.95 vs Oddfellows 6.1), motion gate, a11y/contrast gate in web QA. Hermes film tests: 6/10 → 6.5/10. Motion retrofit 20 Oct: full motion forced always (no OS reduced-motion checks, no toggle), live + QA ok."><header><h3>Hermes Studio — tooling &amp; kits</h3><span class="mono dim">topic 1</span></header><p class="status">Kits: web-editorial, game-three, motion (brand-opener, anthem). New: one-take voiceover + beat warp (anthem motion 5.95 vs Oddfellows 6.1), motion gate, a11y/contrast gate in web QA. Hermes film tests: 6/10 → 6.5/10. Motion retrofit 20 Oct: full motion forced always (no OS reduced-motion checks, no toggle), live + QA ok.</p><p class="next"><span class="k">next</span> Itlala UX/UI overhaul (Hermes), then a third Hermes film test with the one-take recipe.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/hermes-studio/" target="_blank" rel="noopener">Studio site</a> <a class="pill" href="https://hermesalfredguy.github.io/tidework-studio/" target="_blank" rel="noopener">TIDEWORK site</a> <a class="pill" href="https://hermesalfredguy.github.io/ember-run/" target="_blank" rel="noopener">Ember Run game</a></div></article>
+<article class="proj" data-search="Clumsy Claw — first-person physics cooking game M2 core loop shipped (v0.4.1-m2) in a private repo; the 11 Oct player-feedback + audio cycle is green but still uncommitted (8 modified files, 7 new audio/test scripts)."><header><h3>Clumsy Claw — first-person physics cooking game</h3><span class="mono dim">topic 36</span></header><p class="status">M2 core loop shipped (v0.4.1-m2) in a private repo; the 11 Oct player-feedback + audio cycle is green but still uncommitted (8 modified files, 7 new audio/test scripts).</p><p class="next"><span class="k">next</span> Commit the feedback/audio cycle and re-run tools/checks.sh, then the M3 art + 120 FPS pass.</p><div class="links"></div></article>
+<article class="proj" data-search="Wadi Paddle — ND96 kayak race Pass II «تجديف الوادي» live on the Oracle VM: verify event 55 OK, npm test 95/0, live round completed 15 Oct. Motion retrofit 20 Oct live: full motion forced always, no toggle, QA ok."><header><h3>Wadi Paddle — ND96 kayak race</h3><span class="mono dim">topic 10075</span></header><p class="status">Pass II «تجديف الوادي» live on the Oracle VM: verify event 55 OK, npm test 95/0, live round completed 15 Oct. Motion retrofit 20 Oct live: full motion forced always, no toggle, QA ok.</p><p class="next"><span class="k">next</span> No open defect from the last verify; next pass waits on the owner.</p><div class="links"><a class="pill" href="https://kayak-8d938128.nip.io/host" target="_blank" rel="noopener">Host screen</a> <a class="pill" href="https://kayak-8d938128.nip.io/play" target="_blank" rel="noopener">Play (phone)</a></div></article>
+<article class="proj" data-search="Cartoon Studio — The Last Lumen The Last Lumen delivered and verified: 1080p 40 s film (960 frames, 24 fps) plus three 6 s style studies and an 18 s comparison; two earlier episodes rendered."><header><h3>Cartoon Studio — The Last Lumen</h3><span class="mono dim">topic 10569</span></header><p class="status">The Last Lumen delivered and verified: 1080p 40 s film (960 frames, 24 fps) plus three 6 s style studies and an 18 s comparison; two earlier episodes rendered.</p><p class="next"><span class="k">next</span> Studio idle — the next episode needs a brief from the owner.</p><div class="links"></div></article>
+<article class="proj" data-search="Lathe — agentic landing page Single-page Lathe site finished and audited over six rounds (Lighthouse, keyboard + touch probes, desktop and phone screenshots); lives only in /opt/data/projects/agentic-landing — never deployed, no repo."><header><h3>Lathe — agentic landing page</h3><span class="mono dim">topic 6221</span></header><p class="status">Single-page Lathe site finished and audited over six rounds (Lighthouse, keyboard + touch probes, desktop and phone screenshots); lives only in /opt/data/projects/agentic-landing — never deployed, no repo.</p><p class="next"><span class="k">next</span> Needs a public home: a static-export Pages deploy would give it its first live URL.</p><div class="links"></div></article>
+<article class="proj" data-search="Ember Run — browser game Live demo."><header><h3>Ember Run — browser game</h3><span class="mono dim">topic —</span></header><p class="status">Live demo.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/ember-run/" target="_blank" rel="noopener">Play</a></div></article>
+<article class="proj" data-search="Hermes Studio — showcase site Live — work list generated from the registry (11 projects, thumbnails, live links); daily refresh job at 04:00 UTC."><header><h3>Hermes Studio — showcase site</h3><span class="mono dim">topic —</span></header><p class="status">Live — work list generated from the registry (11 projects, thumbnails, live links); daily refresh job at 04:00 UTC.</p><p class="next"><span class="k">next</span> New showcase entries with a live link appear on the next build (or the 04:00 refresh); add them to data/work.notes.json for voice/order.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/hermes-studio/" target="_blank" rel="noopener">Site</a></div></article>
+<article class="proj" data-search="Tidework — brand studio site Live."><header><h3>Tidework — brand studio site</h3><span class="mono dim">topic —</span></header><p class="status">Live.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/tidework-studio/" target="_blank" rel="noopener">Site</a></div></article>
+<article class="proj" data-search="TOCK &amp; friends — handheld launch-site test 4 one-shot pages (DeepSeek/MiniMax, raw/brief/auto-brief)."><header><h3>TOCK &amp; friends — handheld launch-site test</h3><span class="mono dim">topic —</span></header><p class="status">4 one-shot pages (DeepSeek/MiniMax, raw/brief/auto-brief).</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/handheld-oneshot-test/" target="_blank" rel="noopener">Gallery</a> <a class="pill" href="https://hermesalfredguy.github.io/handheld-oneshot-test/deepseek-auto/" target="_blank" rel="noopener">TOCK</a></div></article>
+<article class="proj" data-search="Tomo-01 — handheld launch site Live. Paper-catalogue launch page for a fictional two-screen handheld: bespoke Three.js device (hinge opens on scroll 0-113 deg, two live canvas LCDs), Pebble Garden playable in the page, opt-in synthesised sound, colour studio. Press loop 20s 16:9 + social cut 15s 9:16, both passing the film motion gate. studio-qa green (0 axe, 0 errors, 0 overflow, 0 small tap targets); mobile nav-clearance and anchor scroll-padding fixed after a rubric critique pass (7.1 -&gt; 7.7). Phone pass 2026-10-21: the fixed WebGL canvas now places the device in reserved document-flow bands solved from the measured rect, so nothing can sit under it; 0 text/device overlaps at 390x844 and 360x780, 0 tap targets under 44px, 0 body copy under 15px, playable console in one viewport, desktop layout unchanged (28/29 measured fields identical to the pre-change build)."><header><h3>Tomo-01 — handheld launch site</h3><span class="mono dim">topic —</span></header><p class="status">Live. Paper-catalogue launch page for a fictional two-screen handheld: bespoke Three.js device (hinge opens on scroll 0-113 deg, two live canvas LCDs), Pebble Garden playable in the page, opt-in synthesised sound, colour studio. Press loop 20s 16:9 + social cut 15s 9:16, both passing the film motion gate. studio-qa green (0 axe, 0 errors, 0 overflow, 0 small tap targets); mobile nav-clearance and anchor scroll-padding fixed after a rubric critique pass (7.1 -&gt; 7.7). Phone pass 2026-10-21: the fixed WebGL canvas now places the device in reserved document-flow bands solved from the measured rect, so nothing can sit under it; 0 text/device overlaps at 390x844 and 360x780, 0 tap targets under 44px, 0 body copy under 15px, playable console in one viewport, desktop layout unchanged (28/29 measured fields identical to the pre-change build).</p><p class="next"><span class="k">next</span> Owner review. Optional next: per-colour device stills, lazy-load the three.js device, wire a real storefront.</p><div class="links"><a class="pill" href="https://hermesalfredguy.github.io/tomo-01/" target="_blank" rel="noopener">Live site</a></div></article>
+    </section>
+
+    <section id="runtimes" class="reveal">
+      <h2><i>07</i> Runtimes</h2>
+      <p class="sub">Version strings reported by the binaries themselves.</p>
+      <table><tbody><tr><td class="name">Hermes Agent</td><td class="mono dim ellip">Hermes Agent v0.22.2 (2026.9.24) · upstream d923a5eb</td></tr>
+<tr><td class="name">Node.js</td><td class="mono dim ellip">v26.7.0</td></tr>
+<tr><td class="name">Python</td><td class="mono dim ellip">Python 3.14.7</td></tr>
+<tr><td class="name">FFmpeg</td><td class="mono dim ellip">ffmpeg version n9.0.1-11-ge47273f4d9-20260831</td></tr>
+<tr><td class="name">Godot</td><td class="mono dim ellip">4.7.2.stable.official.ed1daf0bf</td></tr>
+<tr><td class="name">Blender</td><td class="mono dim ellip">Blender 4.5.9 LTS</td></tr>
+<tr><td class="name">gh CLI</td><td class="mono dim ellip">gh version 2.101.0 (2026-09-15)</td></tr>
+<tr><td class="name">uv / uvx</td><td class="mono dim ellip">uvx 0.12.3 (x86_64-unknown-linux-gnu)</td></tr>
+<tr><td class="name">npx</td><td class="mono dim ellip">12.0.2</td></tr></tbody></table>
+    </section>
+  </div>
+</main>
+
+<footer class="wrap">
+  <span>generated 2026-10-21 13:59 UTC · /opt/data/studio/tool-tracker</span>
+  <span>refresh: bash tools-tracker.sh</span>
+</footer>
+
+<script>
+  const q = document.getElementById('q');
+  const rows = [...document.querySelectorAll('[data-search]')];
+  q.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase();
+    rows.forEach(r => { r.style.display = !v || r.dataset.search.toLowerCase().includes(v) ? '' : 'none'; });
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold:.12 });
+  document.querySelectorAll('section').forEach(s => io.observe(s));
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+shots/
+data.json.tmp
+node_modules
+dist
+build
+out
+.env
+.env*
+*.pem
+*.key
+.DS_Store
