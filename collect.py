@@ -221,7 +221,8 @@ def projects():
             "status": p.get("status", ""),
             "live": [[str(l[0]), str(l[1])] for l in live][:4],
             "video": p.get("video"),
-            "next": p.get("next", ""),
+            "next": ("" if str(p.get("next") or "").strip().rstrip(".").lower()
+                     in ("", "none", "n/a", "-", "null", "tbd") else str(p["next"]).strip()),
         })
     return out
 

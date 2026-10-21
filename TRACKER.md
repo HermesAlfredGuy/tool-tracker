@@ -1,6 +1,6 @@
 # Hermes · Tool Tracker
 
-_Generated 2026-10-21 14:21 UTC on hermes_
+_Generated 2026-10-21 14:31 UTC on hermes_
 
 **25/25 MCP servers live · 583 MCP tools · 17/24 native toolsets · 17/19 crons · 10/10 services healthy · 18 projects**
 
@@ -89,7 +89,7 @@ _Generated 2026-10-21 14:21 UTC on hermes_
 | ND96 host (Oracle VM) | HTTP 200 | ok |
 | ND96 kayak (Oracle VM) | HTTP 200 | ok |
 | Disk /opt/data | 134G used of 952G (15%) | ok |
-| Load average | 2.20 2.14 6.34 | ok |
+| Load average | 5.26 2.54 4.31 | ok |
 
 ## 4. Scheduled jobs
 
@@ -162,7 +162,7 @@ _Generated 2026-10-21 14:21 UTC on hermes_
 
 ### NEO — agentic AI launch site + film
 - **Status:** Removed by the owner (2026-10-20). Both NEO sites are offline; the repos are private and kept.
-- **Next:** None.
+- **Next:** 
 - **Live:** no public link
 - **Topic:** 12922
 
@@ -227,7 +227,7 @@ _Generated 2026-10-21 14:21 UTC on hermes_
 - **Topic:** None
 
 ### Tool Tracker — tools & progress
-- **Status:** Live dashboard generated from the real system (2026-10-21): 25/25 MCP servers hand-tested, 583 MCP tools, 17/24 native toolsets, 16/18 cron jobs, 10/10 services, 17 projects with current status.
+- **Status:** Live dashboard generated from the real system (2026-10-21 14:20 UTC): 25/25 MCP servers handshaken, 583 MCP tools (565 names indexed), 17/24 native toolsets, 17/19 cron jobs, 10/10 services, 272 skills, 18 projects with current status.
 - **Next:** Auto-refresh daily 05:20 UTC; on demand: PUBLISH=1 bash studio/tool-tracker/refresh.sh
 - **Live:** https://hermesalfredguy.github.io/tool-tracker/
 - **Topic:** 1
